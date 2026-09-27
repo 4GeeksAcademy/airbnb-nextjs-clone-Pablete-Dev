@@ -72,3 +72,11 @@ Las capturas sirven para derivar la estructura, los componentes, sus props y el 
 - Mantener un componente por archivo.
 - No usar estilos inline.
 - No usar librerías de UI preconstruidas.
+
+## Home Vision Spec
+
+- **Componentes visibles y datos:** `SearchBar` recibe el texto de búsqueda y la acción de abrir/ejecutar la búsqueda. `CategoryFilter` recibe categorías con etiqueta, icono y estado seleccionado. `SectionHeader` recibe el título de la sección y la acción de avanzar. `ListingCard` recibe id, imágenes, título, etiqueta opcional de favorito entre huéspedes, precio, cantidad de noches, puntuación y estado/acción de favorito. `HorizontalListingRow` recibe la lista de alojamientos que presenta. `BottomNav` recibe opciones con etiqueta, icono, destino y estado activo. `PriceNotice` recibe el texto del aviso y su estado de visibilidad.
+- **Orden y layout:** dentro del contenido, `SearchBar` aparece primero; debajo va `CategoryFilter`. Siguen secciones repetibles formadas por `SectionHeader` y su `HorizontalListingRow`. Cada `ListingCard` presenta la imagen con el distintivo y el botón de favorito superpuestos; título, precio por estancia y puntuación quedan debajo de la imagen.
+- **Mobile-first a 375px:** mantener márgenes laterales compactos, controles táctiles claros y títulos de sección capaces de ocupar dos líneas. Mostrar varias tarjetas estrechas por sección sin comprimir su contenido; recortar la siguiente tarjeta como indicio de que la fila continúa.
+- **Scroll horizontal:** permitir desplazamiento horizontal independiente en `CategoryFilter` y en cada `HorizontalListingRow`; el resto de la página conserva el scroll vertical.
+- **Fijos o flotantes:** `BottomNav` permanece fija en el borde inferior de la pantalla. `PriceNotice` aparece flotando sobre el contenido, centrado y justo encima de la navegación inferior; puede superponerse a la fila de alojamientos. El control de favorito queda superpuesto en la esquina superior derecha de la imagen de cada `ListingCard`.
