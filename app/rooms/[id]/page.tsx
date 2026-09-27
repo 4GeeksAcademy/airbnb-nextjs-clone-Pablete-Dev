@@ -128,9 +128,24 @@ const room: RoomDetails = {
   },
 };
 
-const mockRooms: Record<string, RoomDetails> = {
-  [room.id]: room,
-};
+const listingIds = [
+  room.id,
+  "vina-pool-apartment",
+  "vina-tower-apartment",
+  "vina-coast-apartment",
+  "la-serena-coast-apartment",
+  "la-serena-tower-apartment",
+  "la-serena-interior-apartment",
+  "vina-mar-tower",
+  "vina-mar-seaside",
+  "vina-mar-garden",
+  "vina-mar-center",
+  "vina-mar-coast-view",
+];
+
+const mockRooms: Record<string, RoomDetails> = Object.fromEntries(
+  listingIds.map((id) => [id, { ...room, id }]),
+);
 
 const RoomPage = () => {
   const { id } = useParams<{ id: string }>();

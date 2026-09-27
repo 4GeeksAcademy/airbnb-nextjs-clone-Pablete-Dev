@@ -203,7 +203,6 @@ const navigationItems: BottomNavItem[] = [
   },
   {
     label: "Iniciar sesión",
-    href: "/login",
     icon: (
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="size-6">
         <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.8" />
@@ -223,18 +222,20 @@ const Home = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("all");
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(() => new Set());
   const [searchTerm, setSearchTerm] = useState("");
-  const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadedHomeSections, setLoadedHomeSections] = useState<HomeSection[]>([]);
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => setIsLoading(false), 650);
+    const timeoutId = window.setTimeout(() => {
+      setLoadedHomeSections(homeSections);
+      setIsLoading(false);
+    }, 650);
     return () => window.clearTimeout(timeoutId);
   }, []);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setAppliedSearchTerm(searchTerm.trim());
     setIsSearchOpen(false);
   };
 
@@ -247,13 +248,14 @@ const Home = () => {
     });
   };
 
-  const visibleSections = homeSections
+  const normalizedSearch = searchTerm.trim().toLocaleLowerCase("es");
+
+  const visibleSections = loadedHomeSections
     .filter(
       (section) =>
         selectedCategoryId === "all" || section.categoryId === selectedCategoryId,
     )
     .map((section) => {
-      const normalizedSearch = appliedSearchTerm.toLocaleLowerCase("es");
       return {
         ...section,
         listings: section.listings.filter((listing) => {
@@ -276,7 +278,7 @@ const Home = () => {
       <div className="mx-auto max-w-7xl px-6 pt-5 md:px-8 md:pt-8">
         <header className="mx-auto max-w-2xl">
           <SearchBar
-            label={appliedSearchTerm || "Empieza la búsqueda"}
+            label={searchTerm || "Empieza la búsqueda"}
             onSearch={() => setIsSearchOpen((isOpen) => !isOpen)}
           />
           {isSearchOpen && (
